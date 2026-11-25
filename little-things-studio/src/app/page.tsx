@@ -7,6 +7,9 @@ import { SplitText } from "@/components/SplitText";
 import { Magnetic } from "@/components/Magnetic";
 import { Bestsellers, HamperConcierge, StudioTeaser } from "@/components/home/Interactive";
 import { inr } from "@/lib/utils";
+import { UnwrapStory } from "@/components/story/UnwrapStory";
+import { OccasionMarquee } from "@/components/story/OccasionMarquee";
+import { ClipReveal } from "@/components/ClipReveal";
 
 const MOMENTS = [
   { t: "Birthdays", d: "Monogrammed pieces that get used every single morning.", img: 25, href: "/shop?occasion=Birthday" },
@@ -19,6 +22,10 @@ const MOMENTS = [
 export default function Home() {
   return (
     <>
+      {/* THE UNWRAPPING: animated opener + occasions marquee */}
+      <UnwrapStory />
+      <OccasionMarquee />
+
       {/* HERO */}
       <section className="px-page relative grid items-center gap-10 pb-16 pt-6 lg:grid-cols-[1.05fr_1fr] lg:pb-24 lg:pt-10">
         <div aria-hidden className="pointer-events-none absolute -left-20 top-10 h-72 w-72 animate-float rounded-full bg-blush/40 blur-3xl" />
@@ -44,6 +51,7 @@ export default function Home() {
         </div>
       </section>
 
+      <ClipReveal>
       {/* COLLECTIONS */}
       <section className="px-page py-16 lg:py-24" aria-labelledby="col-h">
         <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="t-label-md text-on-tertiary-container" data-anim="up">Curated Collections</p><SplitText as="h2" className="t-headline-lg mt-1 text-primary" parts={[{ t: "Shop by Bespoke Category" }]} /></div><Link href="/shop" className="t-label-md link-u text-primary">View full catalogue ({PRODUCTS.length})</Link></div>
@@ -59,10 +67,11 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </ClipReveal>
 
-      <Bestsellers />
-      <StudioTeaser />
-      <HamperConcierge />
+      <ClipReveal><Bestsellers /></ClipReveal>
+      <ClipReveal><StudioTeaser /></ClipReveal>
+      <ClipReveal><HamperConcierge /></ClipReveal>
 
       {/* PINNED HORIZONTAL GIFTING MOMENTS */}
       <section data-hscroll className="relative overflow-hidden bg-surface-container-low py-16 lg:flex lg:h-screen lg:flex-col lg:justify-center lg:py-0" aria-labelledby="mom-h">
@@ -81,6 +90,7 @@ export default function Home() {
         <div className="px-page mt-8 hidden lg:block"><div className="h-px w-full bg-outline-variant"><div data-hscroll-progress className="h-full origin-left scale-x-0 bg-primary" /></div></div>
       </section>
 
+      <ClipReveal>
       {/* CRAFT */}
       <section className="px-page grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-28" data-bg="#ece5da" aria-labelledby="craft-h">
         <div className="relative"><div className="relative aspect-[4/5] overflow-hidden rounded-xl shadow-l2" data-anim="clip"><SafeImg src={IMG(20)} alt={IMG_ALT(20)} className="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" data-parallax="6" /></div><div className="absolute -bottom-6 -right-2 hidden w-40 rotate-3 overflow-hidden rounded-lg border-4 border-white shadow-l2 md:block md:-right-8 md:w-48" data-anim="scale"><SafeImg src={IMG(21)} alt={IMG_ALT(21)} className="aspect-square w-full object-cover" /></div></div>
@@ -95,6 +105,7 @@ export default function Home() {
           <Link href="/about" className="btn btn-secondary w-fit">Read our story<ArrowRight size={14} /></Link>
         </div>
       </section>
+      </ClipReveal>
 
       {/* PRESS */}
       <section className="px-page py-12 text-center" aria-label="As featured in"><p className="t-label-sm text-on-surface-variant" data-anim="fade">As featured in luxury press</p><div className="mt-5 flex flex-wrap items-center justify-center gap-x-12 gap-y-4 font-serif text-xl tracking-widest text-outline" data-stagger>{["VOGUE INDIA", "ELLE DÉCOR", "ARCHITECTURAL DIGEST", "HARPER'S BAZAAR"].map((n) => <span key={n} data-stagger-item>{n}</span>)}</div></section>

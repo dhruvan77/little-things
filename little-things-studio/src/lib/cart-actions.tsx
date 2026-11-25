@@ -6,8 +6,10 @@ import { useUI } from "@/store/ui";
 import { defaultVariants, unitPriceFor } from "./pricing";
 import { inr } from "./utils";
 import { SafeImg } from "@/components/SafeImg";
+import { confettiBurst } from "./confetti";
 
 export function notifyAdded(name: string, price: number, image: string, summary?: string) {
+  confettiBurst();
   toast.custom((id) => (
     <div className="flex w-[340px] items-center gap-3 rounded-lg border border-primary/10 bg-white p-3 shadow-l2" role="status">
       <SafeImg src={image} alt="" className="h-14 w-12 shrink-0 rounded object-cover" />

@@ -4,10 +4,10 @@ import { Toaster } from "sonner";
 import { useCart } from "@/store/cart";
 import { useWishlist } from "@/store/wishlist";
 import { useOrder } from "@/store/ui";
-import { Preloader } from "./Preloader";
+import { Intro } from "./intro/Intro";
 import { SmoothScroll } from "./SmoothScroll";
 import { PageFX } from "./PageFX";
-import { Cursor } from "./Cursor";
+import { BowCursor } from "./BowCursor";
 import { CartDrawer } from "./CartDrawer";
 import { SearchOverlay } from "./SearchOverlay";
 import { QuickView } from "./QuickView";
@@ -17,10 +17,10 @@ export function Providers() {
   useEffect(() => { useCart.persist.rehydrate(); useWishlist.persist.rehydrate(); useOrder.persist.rehydrate(); }, []);
   return (
     <>
-      <Preloader />
+      <Intro />
       <SmoothScroll />
       <PageFX />
-      <Cursor />
+      <BowCursor />
       <CartDrawer />
       <SearchOverlay />
       <QuickView />

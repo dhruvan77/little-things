@@ -41,3 +41,11 @@ Next.js (App Router), React, TypeScript, Tailwind CSS 4, Motion for React, GSAP 
 ## Images
 
 All imagery uses the original Stitch-hosted Google image URLs (hotlinked). They may expire; each image has a styled fallback. To self-host, download the URLs listed in `src/data/images.json` into `public/images/` and point the `src` values there.
+
+## The Unwrapping (animated home opener)
+
+- `components/intro/Intro.tsx`: ribbon draws itself, ties a bow, curtains split open (once per session, skippable)
+- `components/story/UnwrapStory.tsx`: pinned scroll story: ribbon unties, lid lifts, gifts burst out and settle into the product grid
+- `components/story/GiftScene.tsx`: Three.js gift box (dynamic import, `ssr: false`) with mouse tilt, sparkles and confetti; `CssGiftBox.tsx` is the mobile / reduced-motion / no-WebGL fallback
+- `components/story/RotatingWord.tsx`, `OccasionMarquee.tsx`, `components/BowCursor.tsx`, `ClipReveal.tsx`, `AmbientBackground.tsx`, `lib/confetti.ts`
+- Mobile: no WebGL, no pin. Reduced motion: everything shows in its finished state.

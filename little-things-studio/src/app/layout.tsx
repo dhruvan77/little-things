@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Newsletter } from "@/components/Newsletter";
 import { Providers } from "@/components/Providers";
+import { AmbientBackground } from "@/components/AmbientBackground";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://little-things-studio.example"),
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-on-primary">Skip to content</a>
+        <AmbientBackground />
         <Providers />
         <Header />
         <main id="main" className="min-h-screen pt-24 lg:pt-28">{children}</main>

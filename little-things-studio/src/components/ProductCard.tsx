@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { ArrowRight, Eye, PenLine } from "lucide-react";
 import type { Product } from "@/data/types";
 import { CATEGORY_NAMES } from "@/data/products";
@@ -9,15 +9,27 @@ import { addProduct } from "@/lib/cart-actions";
 import { useUI } from "@/store/ui";
 import { SafeImg } from "./SafeImg";
 import { StarRating, WishlistButton } from "./ui";
+import { useReducedMotion } from "@/hooks/useHydrated";
 
 export function ProductCard({ product: p, index = 0 }: { product: Product; index?: number }) {
   const setQuickView = useUI((s) => s.setQuickView);
+  const reduced = useReducedMotion();
+  // 3D tilt: pointer position -> spring-smoothed rotation (mouse only)
+  const rx = useSpring(useMotionValue(0), { stiffness: 220, damping: 18 });
+  const ry = useSpring(useMotionValue(0), { stiffness: 220, damping: 18 });
+  const onMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (reduced || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 12);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 12);
+  };
+  const onLeave = () => { rx.set(0); ry.set(0); };
   const save = discountPct(p.price, p.originalPrice);
   const personal = p.personalisation.type !== "none";
   const out = p.stock === "out";
   return (
     <motion.article initial={{ opacity: 0, y: 36 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -8% 0px" }} transition={{ duration: 0.7, delay: (index % 4) * 0.07, ease: [0.2, 0.8, 0.2, 1] }}
-      whileHover={{ y: -4 }} className="group card relative flex flex-col overflow-hidden transition-shadow duration-500 hover:shadow-l2">
+      whileHover={{ y: -4 }} onPointerMove={onMove} onPointerLeave={onLeave} style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }} className="group card relative flex flex-col overflow-hidden transition-shadow duration-500 hover:shadow-l2">
       <div className="relative aspect-[4/5] overflow-hidden bg-surface-container-low">
         <Link href={`/product/${p.slug}`} aria-label={`View ${p.name}`} data-cursor="View" className="block h-full">
           <SafeImg src={p.images[0]} alt={p.name} className="absolute inset-0 h-full w-full object-cover transition-all duration-[600ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-[1.04] group-hover:opacity-0" />
